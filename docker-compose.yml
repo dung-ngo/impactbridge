@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: impactbridge-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: impactbridge_user
+      POSTGRES_PASSWORD: impactbridge_password
+      POSTGRES_DB: impactbridge_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - impactbridge_data:/var/lib/postgresql/data
+
+volumes:
+  impactbridge_data:
