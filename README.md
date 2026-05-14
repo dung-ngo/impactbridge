@@ -1,4 +1,4 @@
- # ImpactBridge
+# ImpactBridge
 
 ImpactBridge is a fullstack donation platform where users can create campaigns, donate to causes, track their impact, and use AI-powered analysis to improve campaign effectiveness.
 
@@ -29,3 +29,25 @@ ImpactBridge is a fullstack donation platform where users can create campaigns, 
 - Admin dashboard
 - Hall of Fame leaderboard
 - AI campaign analysis
+
+## RUN COMMANDS
+
+### Run dev database:
+
+- docker compose -f docker-compose.dev.yml up -d
+
+### Run backend
+
+- cd backend
+- go run ./cmd/api
+
+### Run frontend
+
+- cd frontend
+- npm run dev
+
+## DOCKER COMMANDS
+
+- Check: docker ps
+- Shutdown: docker ps
+- Shutdown & delete database: docker compose -f docker-compose.dev.yml down -v
