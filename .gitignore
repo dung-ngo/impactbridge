@@ -10,7 +10,7 @@ backend/bin/
 backend/tmp/
 
 # env files
-.env
+.env*
 .env.local
 .env.development
 .env.production

@@ -1,15 +1,17 @@
 # ImpactBridge
 
-ImpactBridge is a fullstack donation platform where users can create campaigns, donate to causes, track their impact, and use AI-powered analysis to improve campaign effectiveness.
+ImpactBridge is a fullstack donation platform for campaigns, donors, pledges, and impact tracking.
 
-## Tech Stack
+## Current Sprint Stack
 
-- Frontend: Next.js, TypeScript, Tailwind CSS
-- Backend: Go
-- Database: PostgreSQL
-- Payments: Stripe test mode
-- AI: OpenAI API
-- Deployment: Vercel + Render
+- Next.js App Router
+- TypeScript
+- PostgreSQL
+- Prisma ORM
+- Tailwind CSS
+- Stripe test mode later
+- Auth.js/NextAuth later
+- Vercel deployment later
 
 ## Core Roles
 
@@ -19,16 +21,53 @@ ImpactBridge is a fullstack donation platform where users can create campaigns, 
 
 ## MVP Features
 
+### Core MVP for June 12
+
 - User authentication
-- Campaign creation and publishing
-- One-time donations
-- Recurring donations
-- Pledges
+- Role-based access control: Admin, Campaign Creator, Donor
+- Campaign creation, editing, draft saving, and publishing
+- Public campaign listing page
+- Public campaign detail page
+- Pledge flow
+- One-time donation flow with Stripe test mode
 - Donor dashboard
 - Creator dashboard
 - Admin dashboard
 - Hall of Fame leaderboard
+- Basic responsive design
+- Production deployment
+- Portfolio README and demo video
+
+### Stretch Goals
+
+These features are valuable, but only after the core MVP is stable:
+
+- Recurring donations
 - AI campaign analysis
+- Email receipts
+- Campaign approval/moderation
+- Advanced analytics
+- Image upload
+
+## Architecture Direction
+
+This sprint uses a Next.js fullstack architecture.
+
+- UI: React components inside Next.js
+- Backend: Next.js Route Handlers
+- Database: PostgreSQL accessed through Prisma
+- Auth: planned with Auth.js/NextAuth
+- Payments: planned with Stripe test mode
+
+## Engineering Principles Practiced
+
+- KISS
+- YAGNI
+- Separation of Concerns
+- Single Responsibility
+- Least Privilege
+- Fail Fast
+- Secure by Default
 
 ## RUN COMMANDS
 

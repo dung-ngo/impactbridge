@@ -1,16 +1,16 @@
 services:
   postgres:
     image: postgres:16
-    container_name: impactbridge-postgres-dev
+    container_name: impactbridge-postgres-v2
     restart: always
     environment:
-      POSTGRES_USER: impactbridge_user
-      POSTGRES_PASSWORD: impactbridge_password
-      POSTGRES_DB: impactbridge_db
+      POSTGRES_USER: ib_user
+      POSTGRES_PASSWORD: ib_password_123
+      POSTGRES_DB: ib_dev
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
-      - impactbridge_dev_data:/var/lib/postgresql/data
+      - impactbridge_pgdata_v2:/var/lib/postgresql/data
 
 volumes:
-  impactbridge_dev_data:
+  impactbridge_pgdata_v2:
