@@ -6,6 +6,7 @@ type TextInputProps = {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  error?: string;
 };
 
 export function TextInput({
@@ -16,6 +17,7 @@ export function TextInput({
   value,
   onChange,
   placeholder,
+  error,
 }: TextInputProps) {
   return (
     <div>
@@ -30,8 +32,16 @@ export function TextInput({
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
+        aria-invalid={Boolean(error)}
+        aria-describedby={error ? `${id}-error` : undefined}
         className="mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-black"
       />
+
+      {error ? (
+        <p id={`${id}-error`} className="mt-1 text-sm text-red-600">
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }
