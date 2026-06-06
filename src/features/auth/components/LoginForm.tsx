@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { TextInput } from "./TextInput";
 
 export function LoginForm() {
   const [email, setEmail] = useState<string>("");
@@ -16,35 +17,24 @@ export function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="email" className="text-sm font-medium text-gray-700">
-          Email
-        </label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          placeholder="you@example.com"
-          className="mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-black"
-        />
-      </div>
-      <div>
-        <label htmlFor="password" className="text-sm font-medium text-gray-700">
-          Password
-        </label>
-
-        <input
-          id="password"
-          name="password"
-          type="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          placeholder="Enter your password"
-          className="mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-black"
-        />
-      </div>
+      <TextInput
+        id="email"
+        name="email"
+        label="Email"
+        type="email"
+        value={email}
+        onChange={setEmail}
+        placeholder="you@example.com"
+      />
+      <TextInput
+        id="password"
+        name="password"
+        label="Password"
+        type="password"
+        value={password}
+        onChange={setPassword}
+        placeholder="Enter your password"
+      />
 
       <button
         type="submit"
