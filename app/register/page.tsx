@@ -1,4 +1,5 @@
 import AuthCard from "@/src/features/auth/components/AuthCard";
+import { RegisterForm } from "@/src/features/auth/components/RegisterForm";
 
 export default function RegisterPage() {
   return (
@@ -6,7 +7,9 @@ export default function RegisterPage() {
       <AuthCard
         title="Create your account"
         description="Join as a donor or campaign creator"
-      />
+      >
+        <RegisterForm />
+      </AuthCard>
     </main>
   );
 }
