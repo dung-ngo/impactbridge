@@ -2,22 +2,54 @@
 
 import { useState } from "react";
 import { TextInput } from "./TextInput";
+import {
+  type RegisterFormValues,
+  registerSchema,
+} from "../schemas/authSchemas";
 
+type RegisterFormErrors = Partial<Record<keyof RegisterFormValues, string>>;
 export function RegisterForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [formValues, setFormValues] = useState<RegisterFormValues>({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [errors, setErrors] = useState<RegisterFormErrors>({});
+
+  function updateField(field: keyof RegisterFormValues, value: string) {
+    setFormValues((previousValues) => ({
+      ...previousValues,
+      [field]: value,
+    }));
+
+    setErrors((previousErrors) => ({
+      ...previousErrors,
+      [field]: undefined,
+    }));
+  }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    console.log({
-      name,
-      email,
-      password,
-      confirmPassword,
-    });
+    const result = registerSchema.safeParse(formValues);
+
+    if (!result.success) {
+      const nextErrors: RegisterFormErrors = {};
+
+      for (const issue of result.error.issues) {
+        const fieldName = issue.path[0] as keyof RegisterFormValues;
+        nextErrors[fieldName] = issue.message;
+      }
+
+      setErrors(nextErrors);
+      return;
+    }
+
+    setErrors({});
+
+    console.log("Valid register data:", result.data);
   }
 
   return (
@@ -26,9 +58,10 @@ export function RegisterForm() {
         id="name"
         name="name"
         label="Name"
-        value={name}
-        onChange={setName}
+        value={formValues.name}
+        onChange={(value) => updateField("name", value)}
         placeholder="Your name"
+        error={errors.name}
       />
 
       <TextInput
@@ -36,9 +69,10 @@ export function RegisterForm() {
         name="email"
         label="Email"
         type="email"
-        value={email}
-        onChange={setEmail}
+        value={formValues.email}
+        onChange={(value) => updateField("email", value)}
         placeholder="you@example.com"
+        error={errors.email}
       />
 
       <TextInput
@@ -46,9 +80,10 @@ export function RegisterForm() {
         name="password"
         label="Password"
         type="password"
-        value={password}
-        onChange={setPassword}
+        value={formValues.password}
+        onChange={(value) => updateField("password", value)}
         placeholder="Create a password"
+        error={errors.password}
       />
 
       <TextInput
@@ -56,9 +91,10 @@ export function RegisterForm() {
         name="confirmPassword"
         label="Confirm password"
         type="password"
-        value={confirmPassword}
-        onChange={setConfirmPassword}
+        value={formValues.confirmPassword}
+        onChange={(value) => updateField("confirmPassword", value)}
         placeholder="Confirm your password"
+        error={errors.confirmPassword}
       />
 
       <button
