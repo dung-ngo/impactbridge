@@ -4,20 +4,35 @@ import { registerSchema } from "@/src/features/auth/schemas/authSchemas";
 import { apiError, apiSuccess } from "@/src/lib/apiResponse";
 import { prisma } from "@/src/lib/prisma";
 
-export async function POST(request: Request) {
+async function readJsonBody(request: Request) {
   try {
-    const body = await request.json();
+    return await request.json();
+  } catch {
+    return null;
+  }
+}
 
-    const result = registerSchema.safeParse(body);
+export async function POST(request: Request) {
+  const body = await readJsonBody(request);
 
-    if (!result.success) {
-      return apiError({
-        message: "Invalid registration data.",
-        errors: z.flattenError(result.error).fieldErrors,
-        status: 400,
-      });
-    }
+  if (!body) {
+    return apiError({
+      message: "Request body must be valid JSON.",
+      status: 400,
+    });
+  }
 
+  const result = registerSchema.safeParse(body);
+
+  if (!result.success) {
+    return apiError({
+      message: "Invalid registration data.",
+      errors: z.flattenError(result.error).fieldErrors,
+      status: 400,
+    });
+  }
+
+  try {
     const { name, email, password } = result.data;
 
     const existingUser = await prisma.user.findUnique({

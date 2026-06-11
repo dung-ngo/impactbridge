@@ -8,6 +8,29 @@ import {
 } from "../schemas/authSchemas";
 
 type RegisterFormErrors = Partial<Record<keyof RegisterFormValues, string>>;
+
+type RegisterApiErrorResponse = {
+  success: false;
+  message: string;
+  errors?: Partial<Record<keyof RegisterFormValues, string[]>>;
+};
+
+type RegisterApiSuccessResponse = {
+  success: true;
+  message: string;
+  data?: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    createdAt: string;
+  };
+};
+
+type RegisterApiResponse =
+  | RegisterApiSuccessResponse
+  | RegisterApiErrorResponse;
+
 export function RegisterForm() {
   const [formValues, setFormValues] = useState<RegisterFormValues>({
     name: "",
@@ -17,6 +40,8 @@ export function RegisterForm() {
   });
 
   const [errors, setErrors] = useState<RegisterFormErrors>({});
+  const [formMessage, setFormMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function updateField(field: keyof RegisterFormValues, value: string) {
     setFormValues((previousValues) => ({
@@ -28,32 +53,99 @@ export function RegisterForm() {
       ...previousErrors,
       [field]: undefined,
     }));
+
+    setFormMessage("");
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  // Maps Zod validation issues to form error messages (array to object)
+  function mapClientValidationErrors(
+    issues: { path: PropertyKey[]; message: string }[],
+  ) {
+    const nextErrors: RegisterFormErrors = {};
+
+    for (const issue of issues) {
+      const fieldName = issue.path[0] as keyof RegisterFormValues;
+      nextErrors[fieldName] = issue.message;
+    }
+
+    return nextErrors;
+  }
+
+  function mapServerErrors(
+    serverErrors?: Partial<Record<keyof RegisterFormValues, string[]>>,
+  ) {
+    const nextErrors: RegisterFormErrors = {};
+
+    if (!serverErrors) {
+      return nextErrors;
+    }
+
+    for (const field of Object.keys(serverErrors) as Array<
+      keyof RegisterFormValues
+    >) {
+      nextErrors[field] = serverErrors[field]?.[0];
+    }
+
+    return nextErrors;
+  }
+
+  async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    setFormMessage("");
 
     const result = registerSchema.safeParse(formValues);
 
     if (!result.success) {
-      const nextErrors: RegisterFormErrors = {};
-
-      for (const issue of result.error.issues) {
-        const fieldName = issue.path[0] as keyof RegisterFormValues;
-        nextErrors[fieldName] = issue.message;
-      }
-
-      setErrors(nextErrors);
+      setErrors(mapClientValidationErrors(result.error.issues));
       return;
     }
 
-    setErrors({});
+    try {
+      setIsSubmitting(true);
 
-    console.log("Valid register data:", result.data);
+      const response = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(result.data),
+      });
+
+      const responseData = (await response.json()) as RegisterApiResponse;
+
+      // HTTP status code in the 200-299 range indicates success
+      if (!responseData.success) {
+        setErrors(mapServerErrors(responseData.errors));
+        setFormMessage(responseData.message);
+        return;
+      }
+
+      setErrors({});
+      setFormMessage(responseData.message);
+
+      setFormValues({
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+    } catch (error) {
+      console.error("Register form error:", error);
+      setFormMessage("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {formMessage ? (
+        <p className="rounded-lg bg-gray-50 p-3 text-sm text-gray-700">
+          {formMessage}
+        </p>
+      ) : null}
+
       <TextInput
         id="name"
         name="name"
@@ -99,9 +191,10 @@ export function RegisterForm() {
 
       <button
         type="submit"
+        disabled={isSubmitting}
         className="w-full rounded-lg bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
       >
-        Create account
+        {isSubmitting ? "Creating account..." : "Create account"}
       </button>
     </form>
   );
