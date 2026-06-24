@@ -72,10 +72,8 @@ export function LoginForm() {
       }
 
       setErrors({});
-      setFormMessage("Logged in successfully.");
-
-      router.push("/");
-      router.refresh();
+      router.replace("/dashboard");
+      // router.refresh();
     } catch (error) {
       console.error("Login form error:", error);
       setFormMessage("Something went wrong. Please try again.");

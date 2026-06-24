@@ -1,7 +1,15 @@
 import AuthCard from "@/src/features/auth/components/AuthCard";
 import { LoginForm } from "@/src/features/auth/components/LoginForm";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await auth();
+
+  if (session?.user) {
+    redirect("/dashboard");
+  }
+
   return (
     <main className="bg-gray-100 px-4 py-16">
       <AuthCard
