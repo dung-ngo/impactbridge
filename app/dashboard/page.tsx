@@ -1,10 +1,17 @@
+import DonationList from "@/components/donations/DonationList";
 import LogoutButton from "@/src/features/auth/components/LogoutButton";
 import { requireSession } from "@/src/lib/auth/requireSession";
 import { getUserDonations } from "@/src/lib/donations/getUserDonations";
 
 export default async function DashboardPage() {
   const session = await requireSession();
-  const donations = await getUserDonations(session.user.email!);
+  const userEmail = session.user.email;
+
+  if (!userEmail) {
+    throw new Error("User email is required to show donations");
+  }
+
+  const donations = await getUserDonations(userEmail);
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-16">
@@ -21,19 +28,20 @@ export default async function DashboardPage() {
           <LogoutButton />
         </div>
 
-        <section className="mt-8">
+        {/* <section className="mt-8">
           <h2 className="text-xl font-semibold">Your donations</h2>
 
           <div className="mt-4 space-y-3">
             {donations.map((donation) => (
               <div key={donation.id} className="rounded-md border p-4">
-                <p className="font-medium">{donation.title}</p>
+                <p className="font-medium">{donation.campaignTitle}</p>
                 <p className="text-sm">Amount: ${donation.amount}</p>
                 <p className="text-sm">Status: {donation.status}</p>
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
+        <DonationList donations={donations} />
       </div>
     </main>
   );
