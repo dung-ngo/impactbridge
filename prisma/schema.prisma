@@ -38,60 +38,60 @@ enum PledgeStatus {
 }
 
 model User {
-  id           String   @id @default(uuid()) @db.Uuid
+  id           String @id @default(uuid()) @db.Uuid
   name         String
-  email        String   @unique
+  email        String @unique
   passwordHash String
-  role         Role     @default(DONOR)
+  role         Role   @default(DONOR)
 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  campaigns    Campaign[] @relation("CampaignCreator")
-  donations    Donation[] @relation("UserDonations")
-  pledges      Pledge[]   @relation("UserPledges")
+  campaigns Campaign[] @relation("CampaignCreator")
+  donations Donation[] @relation("UserDonations")
+  pledges   Pledge[]   @relation("UserPledges")
 }
 
 model Campaign {
-  id                 String         @id @default(uuid()) @db.Uuid
-  creatorId          String         @db.Uuid
+  id        String @id @default(uuid()) @db.Uuid
+  creatorId String @db.Uuid
 
-  title              String
-  slug               String         @unique
-  description        String
-  imageUrl           String?
-  impactSummary      String?
+  title         String
+  slug          String  @unique
+  description   String
+  imageUrl      String?
+  impactSummary String?
 
   goalAmountCents    Int
   currentAmountCents Int            @default(0)
   status             CampaignStatus @default(DRAFT)
 
-  createdAt          DateTime       @default(now())
-  updatedAt          DateTime       @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  creator            User           @relation("CampaignCreator", fields: [creatorId], references: [id], onDelete: Cascade)
-  donations          Donation[]
-  pledges            Pledge[]
+  creator   User       @relation("CampaignCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  donations Donation[]
+  pledges   Pledge[]
 
   @@index([creatorId])
   @@index([status])
 }
 
 model Donation {
-  id                      String         @id @default(uuid()) @db.Uuid
-  campaignId              String         @db.Uuid
-  donorId                 String         @db.Uuid
+  id         String @id @default(uuid()) @db.Uuid
+  campaignId String @db.Uuid
+  donorId    String @db.Uuid
 
   amountCents             Int
   currency                String         @default("usd")
   status                  DonationStatus @default(PENDING)
   stripeCheckoutSessionId String?        @unique
 
-  createdAt               DateTime       @default(now())
-  updatedAt               DateTime       @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  campaign                Campaign       @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  donor                   User           @relation("UserDonations", fields: [donorId], references: [id], onDelete: Cascade)
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  donor    User     @relation("UserDonations", fields: [donorId], references: [id], onDelete: Cascade)
 
   @@index([campaignId])
   @@index([donorId])
@@ -99,20 +99,20 @@ model Donation {
 }
 
 model Pledge {
-  id           String       @id @default(uuid()) @db.Uuid
-  campaignId   String       @db.Uuid
-  donorId      String       @db.Uuid
+  id         String @id @default(uuid()) @db.Uuid
+  campaignId String @db.Uuid
+  donorId    String @db.Uuid
 
-  amountCents  Int
-  currency     String       @default("usd")
-  status       PledgeStatus @default(ACTIVE)
-  message      String?
+  amountCents Int
+  currency    String       @default("usd")
+  status      PledgeStatus @default(ACTIVE)
+  message     String?
 
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  campaign     Campaign     @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  donor        User         @relation("UserPledges", fields: [donorId], references: [id], onDelete: Cascade)
+  campaign Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  donor    User     @relation("UserPledges", fields: [donorId], references: [id], onDelete: Cascade)
 
   @@index([campaignId])
   @@index([donorId])
