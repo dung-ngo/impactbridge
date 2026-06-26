@@ -27,20 +27,6 @@ export default async function DashboardPage() {
 
           <LogoutButton />
         </div>
-
-        {/* <section className="mt-8">
-          <h2 className="text-xl font-semibold">Your donations</h2>
-
-          <div className="mt-4 space-y-3">
-            {donations.map((donation) => (
-              <div key={donation.id} className="rounded-md border p-4">
-                <p className="font-medium">{donation.campaignTitle}</p>
-                <p className="text-sm">Amount: ${donation.amount}</p>
-                <p className="text-sm">Status: {donation.status}</p>
-              </div>
-            ))}
-          </div>
-        </section> */}
         <DonationList donations={donations} />
       </div>
     </main>

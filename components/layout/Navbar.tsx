@@ -1,6 +1,10 @@
+import { requireSession } from "@/src/lib/auth/requireSession";
 import Link from "next/link";
+import LogoutButton from "@/src/features/auth/components/LogoutButton";
 
-export function Navbar() {
+export async function Navbar() {
+  const session = await requireSession();
+
   return (
     <header className="border-b bg-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
@@ -13,16 +17,25 @@ export function Navbar() {
             Campaigns
           </Link>
 
-          <Link href="/login" className="text-gray-700 hover:text-black">
-            Login
-          </Link>
+          {session?.user ? (
+            <>
+              <Link href="/dashboard">Dashboard</Link>
+              <LogoutButton />
+            </>
+          ) : (
+            <>
+              <Link href="/login" className="text-gray-700 hover:text-black">
+                Login
+              </Link>
 
-          <Link
-            href="/register"
-            className="rounded-lg bg-black px-4 py-2 text-white hover:bg-gray-800"
-          >
-            Get Started
-          </Link>
+              <Link
+                href="/register"
+                className="rounded-lg bg-black px-4 py-2 text-white hover:bg-gray-800"
+              >
+                Get Started
+              </Link>
+            </>
+          )}
         </nav>
       </div>
     </header>
