@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { mockCampaigns } from "@/src/data/mockCampaigns";
+import DonationForm from "@/components/donations/DonationForm";
 import { formatMoneyFromCents } from "@/src/lib/formatMoney";
+import { getCampaignBySlug } from "@/src/lib/campaigns/getCampaignBySlug";
 
 type CampaignDetailPageProps = {
   params: Promise<{
@@ -14,7 +15,7 @@ export default async function CampaignDetailPage({
 }: CampaignDetailPageProps) {
   const { slug } = await params;
 
-  const campaign = mockCampaigns.find((item) => item.slug === slug);
+  const campaign = await getCampaignBySlug(slug);
 
   if (!campaign) {
     notFound();
@@ -75,15 +76,19 @@ export default async function CampaignDetailPage({
             </div>
           </div>
 
-          <div className="flex gap-3">
+          {/* <div className="flex gap-3">
             <button className="rounded-lg bg-black px-5 py-3 text-sm font-medium text-white">
               Donate
             </button>
-
             <button className="rounded-lg border px-5 py-3 text-sm font-medium">
               Make a Pledge
             </button>
-          </div>
+          </div> */}
+
+          <DonationForm
+            campaignId={campaign.id}
+            campaignTitle={campaign.title}
+          />
         </div>
       </section>
     </main>
