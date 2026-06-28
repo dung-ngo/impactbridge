@@ -1,9 +1,11 @@
 import { requireSession } from "@/src/lib/auth/requireSession";
 import Link from "next/link";
 import LogoutButton from "@/src/features/auth/components/LogoutButton";
+import { auth } from "@/auth";
 
 export async function Navbar() {
-  const session = await requireSession();
+  const session = await auth();
+  const userLabel = session?.user?.name ?? session?.user?.email;
 
   return (
     <header className="border-b bg-white">
@@ -19,7 +21,14 @@ export async function Navbar() {
 
           {session?.user ? (
             <>
-              <Link href="/dashboard">Dashboard</Link>
+              <Link href="/dashboard" className="hover:underline">
+                Dashboard
+              </Link>
+
+              <span className="hidden text-gray-600 sm:inline">
+                {userLabel}
+              </span>
+
               <LogoutButton />
             </>
           ) : (

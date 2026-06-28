@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import DonationForm from "@/components/donations/DonationForm";
 import { formatMoneyFromCents } from "@/src/lib/formatMoney";
 import { getCampaignBySlug } from "@/src/lib/campaigns/getCampaignBySlug";
+import PledgeForm from "@/components/pledges/PledgeForm";
 
 type CampaignDetailPageProps = {
   params: Promise<{
@@ -84,11 +85,16 @@ export default async function CampaignDetailPage({
               Make a Pledge
             </button>
           </div> */}
-
-          <DonationForm
-            campaignId={campaign.id}
-            campaignTitle={campaign.title}
-          />
+          <div className="grid gap-4 md:grid-cols-2">
+            <DonationForm
+              campaignId={campaign.id}
+              campaignTitle={campaign.title}
+            />
+            <PledgeForm
+              campaignId={campaign.id}
+              campaignTitle={campaign.title}
+            />
+          </div>
         </div>
       </section>
     </main>

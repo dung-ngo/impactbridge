@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { createDonation } from "@/src/lib/donations/createDonation";
+import { formatMoneyToCents } from "@/src/lib/formatMoney";
 
 type DonationFormProps = {
   campaignId: string;
@@ -28,7 +29,7 @@ export default function DonationForm({
       return;
     }
 
-    const amountCents = Math.round(amountNumber * 100);
+    const amountCents = formatMoneyToCents(amountNumber);
 
     try {
       setIsSubmitting(true);
@@ -74,20 +75,20 @@ export default function DonationForm({
           value={amount}
           onChange={(event) => setAmount(event.target.value)}
           placeholder="20"
-          className="w-1/4 rounded-md border px-3 py-2 text-sm"
+          className="w-full rounded-md border px-3 py-2 text-sm"
         />
       </div>
 
       {message && <p className="mt-3 text-sm text-gray-700">{message}</p>}
 
-      <div className="mt-6 flex gap-3">
-        <button
-          type="submit"
-          disabled={isSubmitting}
-          className="rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:cursor-not-allowed disabled:bg-gray-400"
-        >
-          {isSubmitting ? "Submitting..." : "Donate now"}
-        </button>
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="mt-6 rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:cursor-not-allowed disabled:bg-gray-400"
+      >
+        {isSubmitting ? "Submitting..." : "Donate now"}
+      </button>
+      {/* <div className="mt-6 flex gap-3">
         <button
           type="submit"
           disabled={true}
@@ -95,7 +96,7 @@ export default function DonationForm({
         >
           Make a Pledge (comming soon)
         </button>
-      </div>
+      </div> */}
     </form>
   );
 }
