@@ -1,11 +1,12 @@
-import { mockCampaigns } from "@/src/data/mockCampaigns";
-import { Campaign } from "@/src/types/campaign";
+import { Campaign } from "@prisma/client";
+import { prisma } from "@/src/lib/prisma";
 
 export async function getCampaignBySlug(
   slug: string,
 ): Promise<Campaign | null> {
-  const campaign = mockCampaigns.find((item) => {
-    return item.slug === slug;
+  return prisma.campaign.findUnique({
+    where: {
+      slug,
+    },
   });
-  return campaign ?? null;
 }

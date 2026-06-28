@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createDonation } from "@/src/lib/donations/createDonation";
 
 type DonationFormProps = {
   campaignId: string;
@@ -27,26 +28,23 @@ export default function DonationForm({
       return;
     }
 
-    const amountInCents = Math.round(amountNumber * 100);
+    const amountCents = Math.round(amountNumber * 100);
 
     try {
       setIsSubmitting(true);
 
-      await new Promise((resolve) => {
-        setTimeout(resolve, 800);
-      });
-
-      console.log("Mock donation submitted:", {
+      const result = await createDonation({
         campaignId,
-        campaignTitle,
-        amountInCents,
+        amountCents,
       });
 
-      setMessage(`Thank you for donating $${amountNumber.toFixed(2)}!`);
-      setAmount("");
+      setMessage(result.message);
+      if (result.success) {
+        setAmount("");
+      }
     } catch (error) {
-      console.error("Failed to submit mock donation:", error);
-      setMessage("Something went wrong. Please try again.");
+      console.error("Failed to submit donation:", error);
+      setMessage("Something went wrong. Please try again!");
     } finally {
       setIsSubmitting(false);
     }

@@ -1,10 +1,8 @@
 import { CampaignCard } from "@/components/campaigns/CampaignCard";
-import { mockCampaigns } from "@/src/data/mockCampaigns";
+import { getPublishedCampaigns } from "@/src/lib/campaigns/getPublishedCampaigns";
 
-export default function CampaignsPage() {
-  const publishedCampaigns = mockCampaigns.filter(
-    (campaign) => campaign.status === "PUBLISHED",
-  );
+export default async function CampaignsPage() {
+  const campaigns = await getPublishedCampaigns();
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-12">
@@ -16,7 +14,7 @@ export default function CampaignsPage() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        {publishedCampaigns.map((campaign) => (
+        {campaigns.map((campaign) => (
           <CampaignCard key={campaign.id} campaign={campaign} />
         ))}
       </div>

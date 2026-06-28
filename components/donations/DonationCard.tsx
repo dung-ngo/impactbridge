@@ -1,13 +1,13 @@
-import type { Donation, DonationStatus } from "@/src/types/donation";
+import type { DonationHistoryItem, DonationStatus } from "@/src/types/donation";
 import { formatMoneyFromCents } from "@/src/lib/formatMoney";
 
 type DonationCardProps = {
-  donation: Donation;
+  donation: DonationHistoryItem;
 };
 
 function getStatusBadgeClass(status: DonationStatus): string {
   switch (status) {
-    case "COMPLETED":
+    case "SUCCEEDED":
       return "bg-green-600 text-white";
     case "PENDING":
       return "bg-yellow-300 text-gray-900";
@@ -40,7 +40,7 @@ export default function DonationCard({ donation }: DonationCardProps) {
       </div>
 
       <p className="mt-4 text-lg font-semibold">
-        {formatMoneyFromCents(donation.amount)}
+        {formatMoneyFromCents(donation.amountCents)}
       </p>
     </article>
   );

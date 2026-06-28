@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Campaign } from "@/src/types/campaign";
+import type { Campaign } from "@prisma/client";
 import { formatMoneyFromCents } from "@/src/lib/formatMoney";
 
 type CampaignCardProps = {

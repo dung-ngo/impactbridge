@@ -1,8 +1,8 @@
-import type { Donation } from "@/src/types/donation";
+import type { DonationHistoryItem } from "@/src/types/donation";
 import DonationCard from "./DonationCard";
 
 type DonationListProps = {
-  donations: Donation[];
+  donations: DonationHistoryItem[];
 };
 
 export default function DonationList({ donations }: DonationListProps) {

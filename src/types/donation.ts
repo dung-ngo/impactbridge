@@ -1,10 +1,9 @@
-export type DonationStatus = "PENDING" | "COMPLETED" | "FAILED";
+export type DonationStatus = "PENDING" | "SUCCEEDED" | "FAILED";
 
-export type Donation = {
+export type DonationHistoryItem = {
   id: string;
-  userEmail: string;
   campaignTitle: string;
-  amount: number;
+  amountCents: number;
   status: DonationStatus;
   donatedAt: string;
 };
