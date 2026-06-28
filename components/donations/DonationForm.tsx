@@ -24,6 +24,7 @@ export default function DonationForm({
 
     const amountNumber = Number(amount);
 
+    // Client-side validation gives fast feedback before calling the server
     if (!amount || Number.isNaN(amountNumber) || amountNumber <= 0) {
       setMessage("Please enter a valid donation amount.");
       return;
@@ -75,7 +76,7 @@ export default function DonationForm({
           value={amount}
           onChange={(event) => setAmount(event.target.value)}
           placeholder="20"
-          className="w-full rounded-md border px-3 py-2 text-sm"
+          className="w-1/9 rounded-md border px-3 py-2 text-sm"
         />
       </div>
 

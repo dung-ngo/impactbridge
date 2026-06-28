@@ -68,17 +68,6 @@ async function main() {
         status: DonationStatus.SUCCEEDED,
       },
     });
-
-    await prisma.pledge.create({
-      data: {
-        campaignId: firstCampaign.id,
-        donorId: donor.id,
-        amountCents: 5000,
-        currency: "usd",
-        status: PledgeStatus.ACTIVE,
-        message: "I would love to support this campaign soon.",
-      },
-    });
   }
 
   console.log("Seeding finished.");
