@@ -4,6 +4,7 @@ import { auth } from "@/auth";
 import { prisma } from "@/src/lib/prisma";
 import { Role, DonationStatus } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { isValidAmountCents } from "./validation";
 
 type CreateDonationInput = {
   campaignId: string;
@@ -20,6 +21,7 @@ export async function createDonation(
 ): Promise<CreateDonationResult> {
   const session = await auth();
 
+  // A donation must belong to a logged-in user.
   if (!session?.user?.email) {
     return {
       success: false,
@@ -27,10 +29,11 @@ export async function createDonation(
     };
   }
 
-  if (!Number.isInteger(input.amountCents) || input.amountCents <= 0) {
+  // Server-side validation protects the database even if client validation is bypassed.
+  if (!isValidAmountCents(input.amountCents)) {
     return {
       success: false,
-      message: "Please log in before donating.",
+      message: "Please enter a valid donation amount.",
     };
   }
 

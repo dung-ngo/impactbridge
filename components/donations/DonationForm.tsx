@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { createDonation } from "@/src/lib/donations/createDonation";
-import { formatMoneyToCents } from "@/src/lib/formatMoney";
+import { parseDonationAmountToCents } from "@/src/lib/donations/validation";
 
 type DonationFormProps = {
   campaignId: string;
@@ -22,25 +22,24 @@ export default function DonationForm({
 
     setMessage("");
 
-    const amountNumber = Number(amount);
+    // Convert the user's dollar input into cents before sending it to the server.
+    const parsedAmount = parseDonationAmountToCents(amount);
 
-    // Client-side validation gives fast feedback before calling the server
-    if (!amount || Number.isNaN(amountNumber) || amountNumber <= 0) {
-      setMessage("Please enter a valid donation amount.");
+    if (!parsedAmount.success) {
+      setMessage(parsedAmount.message);
       return;
     }
-
-    const amountCents = formatMoneyToCents(amountNumber);
 
     try {
       setIsSubmitting(true);
 
       const result = await createDonation({
         campaignId,
-        amountCents,
+        amountCents: parsedAmount.amountCents,
       });
 
       setMessage(result.message);
+
       if (result.success) {
         setAmount("");
       }
