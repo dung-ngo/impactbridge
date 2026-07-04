@@ -1,7 +1,6 @@
 import {
   CampaignStatus,
   DonationStatus,
-  PledgeStatus,
   PrismaClient,
   Role,
 } from "@prisma/client";

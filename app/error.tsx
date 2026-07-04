@@ -9,7 +9,7 @@ type GlobalErrorProps = {
 
 export default function GlobalError({ error, reset }: GlobalErrorProps) {
   return (
-    <main className="mx-auto max-w-2xl px-4 py-20 text-center">
+    <main className="w-full h-lvh px-20 py-20 text-center bg-white">
       <p className="text-sm font-medium uppercase tracking-wide text-gray-500">
         Something went wrong
       </p>
@@ -25,7 +25,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
 
       {/* Helpful during development, but avoid showing detailed errors to real users in production. */}
       {process.env.NODE_ENV === "development" ? (
-        <pre className="mt-6 overflow-auto rounded-lg bg-gray-100 p-4 text-left text-xs text-gray-700">
+        <pre className="mt-6 mx-auto w-1/2 h-auto overflow-auto rounded-lg bg-gray-100 p-4 text-left text-xs text-gray-700">
           {error.message}
         </pre>
       ) : null}

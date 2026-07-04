@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import DonationForm from "@/components/donations/DonationForm";
 import { formatMoneyFromCents } from "@/src/lib/formatMoney";
 import { getCampaignBySlug } from "@/src/lib/campaigns/getCampaignBySlug";
+import Image from "next/image";
 
 type CampaignDetailPageProps = {
   params: Promise<{
@@ -32,9 +33,11 @@ export default async function CampaignDetailPage({
 
       <section className="mt-8 overflow-hidden rounded-3xl border bg-white shadow-sm">
         {campaign.imageUrl ? (
-          <img
+          <Image
             src={campaign.imageUrl}
             alt={campaign.title}
+            width={500}
+            height={300}
             className="h-72 w-full object-cover"
           />
         ) : null}

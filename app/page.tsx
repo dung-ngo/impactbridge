@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { CampaignCard } from "@/components/campaigns/CampaignCard";
 import { mockCampaigns } from "@/src/data/mockCampaigns";
+import { getPublishedCampaigns } from "@/src/lib/campaigns/getPublishedCampaigns";
 
-export default function HomePage() {
-  const featuredCampaigns = mockCampaigns.slice(0, 3);
+export default async function HomePage() {
+  const campaigns = await getPublishedCampaigns();
+  const featuredCampaigns = campaigns.slice(0, 3);
 
   return (
     <main>
@@ -41,7 +43,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="rounded-3xl border bg-white p-6 shadow-sm">
+          {/* <div className="rounded-3xl border bg-white p-6 shadow-sm">
             <h2 className="text-xl font-semibold">Platform MVP</h2>
 
             <ul className="mt-4 space-y-3 text-sm text-gray-700">
@@ -50,20 +52,25 @@ export default function HomePage() {
               <li>✅ Donor, creator, and admin dashboards</li>
               <li>✅ Hall of Fame leaderboard</li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="mb-8 flex items-end justify-between">
           <div>
-            <h2 className="text-2xl font-bold">Featured Campaigns</h2>
-            <p className="mt-2 text-gray-600">
+            <h2 className="text-2xl font-bold text-white">
+              Featured Campaigns
+            </h2>
+            <p className="mt-2 text-white">
               Browse active campaigns and support causes that matter.
             </p>
           </div>
 
-          <Link href="/campaigns" className="text-sm font-medium underline">
+          <Link
+            href="/campaigns"
+            className="text-sm font-medium text-white underline"
+          >
             View all
           </Link>
         </div>

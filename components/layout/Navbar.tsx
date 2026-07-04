@@ -1,4 +1,3 @@
-import { requireSession } from "@/src/lib/auth/requireSession";
 import Link from "next/link";
 import LogoutButton from "@/src/features/auth/components/LogoutButton";
 import { auth } from "@/auth";
