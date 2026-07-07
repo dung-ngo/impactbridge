@@ -1,12 +1,14 @@
 type TextInputProps = {
   id: string;
   name: string;
-  label: string;
+  label?: string;
   type?: "text" | "email" | "password";
   value: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   placeholder?: string;
   error?: string;
+  className: string;
+  isDisabled?: boolean;
 };
 
 export function TextInput({
@@ -18,6 +20,8 @@ export function TextInput({
   onChange,
   placeholder,
   error,
+  className,
+  isDisabled,
 }: TextInputProps) {
   return (
     <div>
@@ -30,11 +34,12 @@ export function TextInput({
         name={name}
         type={type}
         value={value}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={(event) => onChange && onChange(event.target.value)}
         placeholder={placeholder}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? `${id}-error` : undefined}
-        className="mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-black"
+        className={className}
+        disabled={isDisabled}
       />
 
       {error ? (

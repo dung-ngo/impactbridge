@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { name, email, password } = result.data;
+    const { name, email, password, profilePicture } = result.data;
 
     const existingUser = await prisma.user.findUnique({
       where: {
@@ -59,6 +59,7 @@ export async function POST(request: Request) {
         email,
         passwordHash,
         role: "DONOR",
+        profilePicture,
       },
       select: {
         id: true,

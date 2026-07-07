@@ -66,6 +66,7 @@ export async function createDonation(
       name: session.user.name ?? session.user.email,
       passwordHash: "created-from-auth-session",
       role: Role.DONOR,
+      profilePicture: session.user.profilePicture,
     },
   });
 

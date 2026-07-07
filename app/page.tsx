@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { CampaignCard } from "@/components/campaigns/CampaignCard";
-import { mockCampaigns } from "@/src/data/mockCampaigns";
 import { getPublishedCampaigns } from "@/src/lib/campaigns/getPublishedCampaigns";
 
 export default async function HomePage() {

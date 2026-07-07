@@ -6,6 +6,7 @@ import {
 } from "@prisma/client";
 
 import { mockCampaigns } from "../src/data/mockCampaigns";
+import { PROFILE_PICTURES } from "@/src/data/profilePictures";
 
 const prisma = new PrismaClient();
 
@@ -21,17 +22,19 @@ async function main() {
     data: {
       name: "Campaign Creator",
       email: "creator@example.com",
-      passwordHash: "demo-password-hash",
+      passwordHash: "creator",
       role: Role.CREATOR,
+      profilePicture: PROFILE_PICTURES[0],
     },
   });
 
   const donor = await prisma.user.create({
     data: {
       name: "Demo Donor",
-      email: "demo@example.com",
-      passwordHash: "demo-password-hash",
+      email: "donor@example.com",
+      passwordHash: "donor",
       role: Role.DONOR,
+      profilePicture: PROFILE_PICTURES[0],
     },
   });
 

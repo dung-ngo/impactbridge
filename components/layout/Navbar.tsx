@@ -1,14 +1,16 @@
 import Link from "next/link";
-import LogoutButton from "@/src/features/auth/components/LogoutButton";
 import { auth } from "@/auth";
+import { PROFILE_PICTURES } from "@/src/data/profilePictures";
+import UserMenu from "./UserMenu";
 
 export async function Navbar() {
   const session = await auth();
   const userLabel = session?.user?.name ?? session?.user?.email;
+  const profileImage = session?.user?.profilePicture || PROFILE_PICTURES[0];
 
   return (
     <header className="border-b bg-white">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 pt-3 pb-2">
         <Link href="/" className="text-xl font-bold">
           ImpactBridge
         </Link>
@@ -17,19 +19,12 @@ export async function Navbar() {
           <Link href="/campaigns" className="text-gray-700 hover:text-black">
             Campaigns
           </Link>
+          <Link href="/about" className="text-gray-700 hover:text-black">
+            About Us
+          </Link>
 
           {session?.user ? (
-            <>
-              <Link href="/dashboard" className="hover:underline">
-                Dashboard
-              </Link>
-
-              <span className="hidden text-gray-600 sm:inline">
-                {userLabel}
-              </span>
-
-              <LogoutButton />
-            </>
+            <UserMenu userLabel={userLabel} profilePicture={profileImage} />
           ) : (
             <>
               <Link href="/login" className="text-gray-700 hover:text-black">

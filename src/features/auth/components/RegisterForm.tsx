@@ -6,6 +6,7 @@ import {
   type RegisterFormValues,
   registerSchema,
 } from "../schemas/authSchemas";
+import { PROFILE_PICTURES } from "@/src/data/profilePictures";
 
 type RegisterFormErrors = Partial<Record<keyof RegisterFormValues, string>>;
 
@@ -32,21 +33,33 @@ type RegisterApiResponse =
   | RegisterApiErrorResponse;
 
 export function RegisterForm() {
+  const inputClassName =
+    "mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-black";
   const [formValues, setFormValues] = useState<RegisterFormValues>({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
+    profilePicture: PROFILE_PICTURES[0],
   });
 
   const [errors, setErrors] = useState<RegisterFormErrors>({});
   const [formMessage, setFormMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  function getRandomProfilePictureUrl(imageUrls: string[]) {
+    const imageIndexes = imageUrls.length - 1;
+    const randomImgIndex = Math.floor(Math.random() * imageIndexes);
+    return imageUrls[randomImgIndex];
+  }
+
   function updateField(field: keyof RegisterFormValues, value: string) {
+    const defaultProfilePicture = getRandomProfilePictureUrl(PROFILE_PICTURES);
     setFormValues((previousValues) => ({
       ...previousValues,
       [field]: value,
+      // If the user is updating the profile picture field, assign a random profile picture URL
+      profilePicture: defaultProfilePicture,
     }));
 
     setErrors((previousErrors) => ({
@@ -129,6 +142,7 @@ export function RegisterForm() {
         email: "",
         password: "",
         confirmPassword: "",
+        profilePicture: PROFILE_PICTURES[0],
       });
     } catch (error) {
       console.error("Register form error:", error);
@@ -141,7 +155,7 @@ export function RegisterForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {formMessage ? (
-        <p className="rounded-lg bg-gray-50 p-3 text-sm text-gray-700">
+        <p className="rounded-lg bg-gray-50 p-3 text-sm text-red-500">
           {formMessage}
         </p>
       ) : null}
@@ -154,6 +168,7 @@ export function RegisterForm() {
         onChange={(value) => updateField("name", value)}
         placeholder="Your name"
         error={errors.name}
+        className={inputClassName}
       />
 
       <TextInput
@@ -165,6 +180,7 @@ export function RegisterForm() {
         onChange={(value) => updateField("email", value)}
         placeholder="you@example.com"
         error={errors.email}
+        className={inputClassName}
       />
 
       <TextInput
@@ -176,6 +192,7 @@ export function RegisterForm() {
         onChange={(value) => updateField("password", value)}
         placeholder="Create a password"
         error={errors.password}
+        className={inputClassName}
       />
 
       <TextInput
@@ -187,6 +204,7 @@ export function RegisterForm() {
         onChange={(value) => updateField("confirmPassword", value)}
         placeholder="Confirm your password"
         error={errors.confirmPassword}
+        className={inputClassName}
       />
 
       <button

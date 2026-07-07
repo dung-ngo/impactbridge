@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
@@ -17,6 +18,8 @@ export function LoginForm() {
   const [errors, setErrors] = useState<LoginFormErrors>({});
   const [formMessage, setFormMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const inputClassName =
+    "mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-black";
 
   function updateField(field: keyof LoginFormValues, value: string) {
     setFormValues((previousValues) => ({
@@ -72,8 +75,12 @@ export function LoginForm() {
       }
 
       setErrors({});
+
+      // Move user away from /login after successful login.
       router.replace("/dashboard");
-      // router.refresh();
+
+      // Ask Server Components to read the newest session cookie again.
+      router.refresh();
     } catch (error) {
       console.error("Login form error:", error);
       setFormMessage("Something went wrong. Please try again.");
@@ -99,6 +106,7 @@ export function LoginForm() {
         onChange={(value) => updateField("email", value)}
         placeholder="you@example.com"
         error={errors.email}
+        className={inputClassName}
       />
       <TextInput
         id="password"
@@ -109,6 +117,7 @@ export function LoginForm() {
         onChange={(value) => updateField("password", value)}
         placeholder="Enter your password"
         error={errors.password}
+        className={inputClassName}
       />
 
       <button

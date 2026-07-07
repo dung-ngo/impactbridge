@@ -25,6 +25,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           label: "Password",
           type: "password",
         },
+        profilePicture: {
+          label: "Profile Picture",
+          type: "profilePicture",
+        },
       },
 
       async authorize(credentials) {
@@ -39,6 +43,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const user = await prisma.user.findUnique({
           where: {
             email,
+          },
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+            profilePicture: true,
+            passwordHash: true,
           },
         });
 
@@ -60,6 +72,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           name: user.name,
           email: user.email,
           role: user.role,
+          profilePicture: user.profilePicture,
         };
       },
     }),
@@ -79,6 +92,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as Role;
+        session.user.profilePicture = token.profilePicture as string;
       }
 
       return session;

@@ -1,8 +1,9 @@
 import { CampaignCard } from "@/components/campaigns/CampaignCard";
 import { getPublishedCampaigns } from "@/src/lib/campaigns/getPublishedCampaigns";
+import { Campaign } from "@prisma/client";
 
 export default async function CampaignsPage() {
-  const campaigns = await getPublishedCampaigns();
+  const campaigns: Campaign[] = await getPublishedCampaigns();
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-12">

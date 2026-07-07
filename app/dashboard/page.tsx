@@ -1,11 +1,11 @@
 import DonationList from "@/components/donations/DonationList";
 import LogoutButton from "@/src/features/auth/components/LogoutButton";
-import { requireSession } from "@/src/lib/auth/requireSession";
 import { getUserDonations } from "@/src/lib/donations/getUserDonations";
+import { auth } from "@/auth";
 
 export default async function DashboardPage() {
-  const session = await requireSession();
-  const userEmail = session.user.email;
+  const session = await auth();
+  const userEmail = session?.user?.email;
 
   if (!userEmail) {
     throw new Error("User email is required to show donations");
