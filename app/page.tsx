@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { CampaignCard } from "@/components/campaigns/CampaignCard";
 import { getPublishedCampaigns } from "@/src/lib/campaigns/getPublishedCampaigns";
+import { AppButton } from "@/src/features/auth/components/AppButton";
 
 export default async function HomePage() {
   const campaigns = await getPublishedCampaigns();
@@ -8,10 +9,10 @@ export default async function HomePage() {
 
   return (
     <main>
-      <section className="bg-gray-50">
+      <section>
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-20 md:grid-cols-2 md:items-center">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-wide text-gray-500">
+            <p className="text-sm font-semibold uppercase tracking-wide">
               Donation platform for meaningful campaigns
             </p>
 
@@ -19,14 +20,14 @@ export default async function HomePage() {
               Help good causes raise support with clarity and trust.
             </h1>
 
-            <p className="mt-6 text-lg text-gray-600">
+            <p className="mt-6 text-lg ">
               ImpactBridge helps campaign creators publish fundraising
               campaigns, receive support, and show donors how their
               contributions create impact.
             </p>
 
             <div className="mt-8 flex gap-3">
-              <Link
+              {/* <Link
                 href="/campaigns"
                 className="rounded-lg bg-black px-5 py-3 text-sm font-medium text-white hover:bg-gray-800"
               >
@@ -36,9 +37,10 @@ export default async function HomePage() {
               <Link
                 href="/register"
                 className="rounded-lg border px-5 py-3 text-sm font-medium hover:bg-white"
-              >
+                >
                 Start a Campaign
-              </Link>
+              </Link> */}
+              <AppButton pathName="/campaign" label="Start a Campaign" />
             </div>
           </div>
 
@@ -55,29 +57,30 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="mb-8 flex items-end justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-white">
-              Featured Campaigns
-            </h2>
-            <p className="mt-2 text-white">
-              Browse active campaigns and support causes that matter.
-            </p>
+      <section className="bg-app-midgreen text-app-salmon ">
+        <div className="mx-auto max-w-6xl gap-10 px-4 py-20 md:grid-cols-2 md:items-center">
+          <div className="pb-10 flex items-end justify-between">
+            <div>
+              <h2 className="text-2xl font-bold">Featured Campaigns</h2>
+              <p className="mt-2">
+                Browse active campaigns and support causes that matter.
+              </p>
+            </div>
+            <div>
+              <Link
+                href="/campaigns"
+                className="text-lg font-medium hover:underline"
+              >
+                View more...
+              </Link>
+            </div>
           </div>
 
-          <Link
-            href="/campaigns"
-            className="text-sm font-medium text-white underline"
-          >
-            View all
-          </Link>
-        </div>
-
-        <div className="grid gap-6 md:grid-cols-3">
-          {featuredCampaigns.map((campaign) => (
-            <CampaignCard key={campaign.id} campaign={campaign} />
-          ))}
+          <div className="grid gap-6 md:grid-cols-3">
+            {featuredCampaigns.map((campaign) => (
+              <CampaignCard key={campaign.id} campaign={campaign} />
+            ))}
+          </div>
         </div>
       </section>
     </main>

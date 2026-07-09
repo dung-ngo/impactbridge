@@ -15,7 +15,14 @@ export type LoginFormValues = z.infer<typeof loginSchema>;
 
 export const registerSchema = z
   .object({
-    name: z.string().min(1, "User name is required."),
+    name: z
+      .string()
+      .min(1, "User name is required.")
+      .max(10, "User name must not exceed 10 characters.")
+      .regex(
+        /^[a-z0-9._-]+$/,
+        'User name must be in lowercase, with numbers, and " . / - / _ " only, no spaces',
+      ),
     email: emailSchema,
     password: z.string().min(6, "Password must be at least 6 characters."),
     confirmPassword: z
@@ -32,7 +39,7 @@ export const updateSchema = z.object({
   name: z
     .string()
     .min(1, "User name can not be blank.")
-    .max(12, "User name is exceeded, maximum 12 characters."),
+    .max(10, "User name is exceeded, maximum 10 characters."),
   email: emailSchema,
   currentPassword: z.string(),
   newPassword: z.string(),

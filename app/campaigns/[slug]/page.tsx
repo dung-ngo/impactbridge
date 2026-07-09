@@ -26,7 +26,7 @@ export default async function CampaignDetailPage({
     (campaign.currentAmountCents / campaign.goalAmountCents) * 100;
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-12">
+    <main className="mx-auto max-w-4xl px-4 py-12 text-black">
       <Link href="/campaigns" className="text-sm underline">
         ← Back to campaigns
       </Link>

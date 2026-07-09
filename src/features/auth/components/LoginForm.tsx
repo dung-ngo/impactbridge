@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { TextInput } from "./TextInput";
 import { loginSchema, type LoginFormValues } from "../schemas/authSchemas";
+import Link from "next/link";
+import { AppButton } from "./AppButton";
 
 type LoginFormErrors = Partial<Record<keyof LoginFormValues, string>>;
 
@@ -127,6 +129,17 @@ export function LoginForm() {
       >
         {isSubmitting ? "Logging in..." : "Log in"}
       </button>
+      <div className="text-center">
+        <p>
+          Don't have an account?{" "}
+          <Link
+            href="/register"
+            className="cursor-pointer font-semibold hover:underline"
+          >
+            Create new account
+          </Link>
+        </p>
+      </div>
     </form>
   );
 }

@@ -12,7 +12,7 @@ export function CampaignCard({ campaign }: CampaignCardProps) {
     (campaign.currentAmountCents / campaign.goalAmountCents) * 100;
 
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-sm">
+    <article className="flex h-full flex-col overflow-hidden rounded-2xl bg-white text-black shadow-sm">
       {campaign.imageUrl ? (
         // Give the image area a fixed height so it does not take over the whole card.
         <div className="h-48 w-full bg-gray-100">

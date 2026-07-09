@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import "./globals.css";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "ImpactBridge",
@@ -15,9 +16,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-app-salmon text-app-midgreen">
         <Navbar />
-        {children}
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );

@@ -7,6 +7,8 @@ import {
   registerSchema,
 } from "../schemas/authSchemas";
 import { PROFILE_PICTURES } from "@/src/data/profilePictures";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type RegisterFormErrors = Partial<Record<keyof RegisterFormValues, string>>;
 
@@ -33,6 +35,7 @@ type RegisterApiResponse =
   | RegisterApiErrorResponse;
 
 export function RegisterForm() {
+  const router = useRouter();
   const inputClassName =
     "mt-2 w-full rounded-lg border px-3 py-2 text-sm outline-none focus:border-black";
   const [formValues, setFormValues] = useState<RegisterFormValues>({
@@ -137,13 +140,15 @@ export function RegisterForm() {
       setErrors({});
       setFormMessage(responseData.message);
 
-      setFormValues({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
-        profilePicture: PROFILE_PICTURES[0],
-      });
+      // setFormValues({
+      //   name: "",
+      //   email: "",
+      //   password: "",
+      //   confirmPassword: "",
+      //   profilePicture: PROFILE_PICTURES[0],
+      // });
+
+      setTimeout(() => router.replace("/login"), 3000);
     } catch (error) {
       console.error("Register form error:", error);
       setFormMessage("Something went wrong. Please try again.");
@@ -214,6 +219,17 @@ export function RegisterForm() {
       >
         {isSubmitting ? "Creating account..." : "Create account"}
       </button>
+      <div className="text-center">
+        <p>
+          Already had an account?{" "}
+          <Link
+            href="/login"
+            className="cursor-pointer font-semibold hover:underline"
+          >
+            Login here
+          </Link>
+        </p>
+      </div>
     </form>
   );
 }

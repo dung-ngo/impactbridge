@@ -15,11 +15,11 @@ export default function UserMenu({ profilePicture, userLabel }: UserMenuProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const pathName = usePathname();
 
-  useEffect(() => {
-    if (isDropdownOpen) {
-      setIsDropdownOpen(false);
-    }
-  }, [pathName, isDropdownOpen]);
+  // useEffect(() => {
+  //   if (isDropdownOpen) {
+  //     setIsDropdownOpen(false);
+  //   }
+  // }, [pathName, isDropdownOpen]);
 
   const handleLogout = async () => {
     try {
@@ -30,12 +30,15 @@ export default function UserMenu({ profilePicture, userLabel }: UserMenuProps) {
   };
 
   return (
-    <div className="relative">
+    <div
+      className="relative inline-block"
+      onMouseEnter={() => setIsDropdownOpen(true)}
+      onMouseLeave={() => setIsDropdownOpen(false)}
+    >
       <button
         className="cursor-pointer"
-        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        aria-expanded={isDropdownOpen}
-        aria-haspopup="true"
+        // aria-expanded={isDropdownOpen}
+        // aria-haspopup="true"
       >
         <Image
           src={profilePicture}
@@ -47,18 +50,18 @@ export default function UserMenu({ profilePicture, userLabel }: UserMenuProps) {
       </button>
 
       {isDropdownOpen && (
-        <div className="absolute right-0 mt-1 w-40 rounded-lg bg-white p-3 shadow-xl">
+        <div className="absolute right-0 w-40 rounded-lg bg-white text-black p-3 shadow-xl">
           <div className="flex items-center justify-between">
             <p>Hi, {userLabel}</p>
           </div>
           <div className="h-[0.25px] bg-gray-300 my-3"></div>
-          <div className="mb-2 hover:text-blue-600 cursor-pointer">
+          <div className="mb-2 hover:text-blue-600 hover:scale-105 cursor-pointer">
             <Link href="/profile">Profile settings</Link>
           </div>
-          <div className="mb-2 hover:text-blue-600 cursor-pointer">
+          <div className="mb-2 hover:text-blue-600 hover:scale-105 cursor-pointer">
             <Link href="/dashboard">Dashboard</Link>
           </div>
-          <div className="mb-2 hover:text-blue-600 cursor-pointer">
+          <div className="mb-2 hover:text-blue-600 hover:scale-105 cursor-pointer">
             <button className="cursor-pointer" onClick={handleLogout}>
               Log out
             </button>

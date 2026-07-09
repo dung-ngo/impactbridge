@@ -105,7 +105,8 @@ export async function PATCH(request: Request) {
     });
 
     return apiSuccess({
-      message: "Profile updated successfully.",
+      message:
+        "Profile updated successfully. You have to re-login to see the changes.",
       data: updatedUser,
       status: 200,
     });

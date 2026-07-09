@@ -9,14 +9,18 @@ export async function Navbar() {
   const profileImage = session?.user?.profilePicture || PROFILE_PICTURES[0];
 
   return (
-    <header className="border-b bg-white">
+    //sticky top-0 z-2000
+    <header className="border-b border-app-midgreen bg-app-midgreen text-app-salmon ">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 pt-3 pb-2">
         <Link href="/" className="text-xl font-bold">
           ImpactBridge
         </Link>
 
         <nav className="flex items-center gap-4 text-sm">
-          <Link href="/campaigns" className="text-gray-700 hover:text-black">
+          <Link
+            href="/campaigns"
+            className="text-app-salmon pr-5 hover:font-bold"
+          >
             Campaigns
           </Link>
 
@@ -24,10 +28,6 @@ export async function Navbar() {
             <UserMenu userLabel={userLabel} profilePicture={profileImage} />
           ) : (
             <>
-              <Link href="/login" className="text-gray-700 hover:text-black">
-                Login
-              </Link>
-
               <Link
                 href="/register"
                 className="rounded-lg bg-black px-4 py-2 text-white hover:bg-gray-800"

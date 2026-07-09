@@ -20,7 +20,7 @@ async function main() {
 
   const creator = await prisma.user.create({
     data: {
-      name: "Campaign Creator",
+      name: "creator",
       email: "creator@example.com",
       passwordHash: "creator",
       role: Role.CREATOR,
@@ -30,7 +30,7 @@ async function main() {
 
   const donor = await prisma.user.create({
     data: {
-      name: "Demo Donor",
+      name: "demodonor",
       email: "donor@example.com",
       passwordHash: "donor",
       role: Role.DONOR,

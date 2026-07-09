@@ -8,8 +8,8 @@ import {
   updateSchema,
 } from "@/src/features/auth/schemas/authSchemas";
 import { TextInput } from "@/src/features/auth/components/TextInput";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 type SettingFormProps = {
   name: string;
@@ -31,7 +31,8 @@ type UpdateApiSuccessResponse = {
   data?: {
     id: string;
     name: string;
-    password: string;
+    // password: string;
+    profilePicture: string;
     updatedAt: string;
   };
 };
@@ -56,6 +57,7 @@ export default function SettingForm({
     input: "rounded-md w-full md:w-[100%] py-1 px-3 border border-gray-400",
   };
   const router = useRouter();
+  const { data: session, update } = useSession();
   const [userInfo, setUserInfo] = useState(initialUserInfo);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formMessage, setFormMessage] = useState("");
@@ -114,6 +116,7 @@ export default function SettingForm({
     setFormMessage("");
 
     const result = updateSchema.safeParse(userInfo);
+    console.log("result ", result);
 
     if (!result.success) {
       setErrors(mapClientValidationErrors(result.error.issues));
@@ -162,8 +165,15 @@ export default function SettingForm({
 
       setErrors({});
       setFormMessage(responseData.message);
+      const resData = responseData.data;
 
-      setUserInfo((prev) => ({ ...prev, initialUserInfo }));
+      if (resData) {
+        setUserInfo((prev) => ({
+          ...prev,
+          name: resData?.name,
+          profilePicture: resData?.profilePicture,
+        }));
+      }
     } catch (error) {
       console.error("Update form error: ", error);
       setFormMessage("Something went wrong. Please try again!");
@@ -184,7 +194,7 @@ export default function SettingForm({
               width={100}
               height={100}
               alt="profile-picture"
-              className="w-1/2 md:w-2/5"
+              className="w-1/2 md:w-2/5 rounded-full"
             />
           </div>
           <div className="flex justify-center mt-3">
@@ -274,13 +284,14 @@ export default function SettingForm({
         <div className="mt-10 flex justify-center gap-2">
           <button
             type="submit"
-            className="border rounded-xl py-2 px-5 bg-black text-white hover:bg-gray-500"
+            className="border rounded-xl py-2 px-5 bg-black text-white hover:scale-105"
           >
             {isSubmitting ? "Updating..." : "Update"}
           </button>
           <button
-            onClick={() => redirect("/")}
-            className="border rounded-xl py-2 px-5 text-black hover:bg-neutral-200"
+            type="button"
+            onClick={() => router.back()}
+            className="border rounded-xl py-2 px-5 hover:scale-105"
           >
             Cancel
           </button>
