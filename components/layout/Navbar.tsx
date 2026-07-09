@@ -19,9 +19,6 @@ export async function Navbar() {
           <Link href="/campaigns" className="text-gray-700 hover:text-black">
             Campaigns
           </Link>
-          <Link href="/about" className="text-gray-700 hover:text-black">
-            About Us
-          </Link>
 
           {session?.user ? (
             <UserMenu userLabel={userLabel} profilePicture={profileImage} />
