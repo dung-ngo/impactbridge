@@ -9,7 +9,6 @@ import {
 } from "@/src/features/auth/schemas/authSchemas";
 import { TextInput } from "@/src/features/auth/components/TextInput";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 
 type SettingFormProps = {
   name: string;
@@ -57,7 +56,6 @@ export default function SettingForm({
     input: "rounded-md w-full md:w-[100%] py-1 px-3 border border-gray-400",
   };
   const router = useRouter();
-  const { data: session, update } = useSession();
   const [userInfo, setUserInfo] = useState(initialUserInfo);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formMessage, setFormMessage] = useState("");

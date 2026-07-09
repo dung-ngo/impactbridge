@@ -22,7 +22,8 @@ async function main() {
     data: {
       name: "creator",
       email: "creator@example.com",
-      passwordHash: "creator",
+      passwordHash:
+        "$2b$10$4nVd6IX/9iu1S0dHdJ9S1OHfTUK8lzhdM1HLh2SnSuye4iBjhlhiS",
       role: Role.CREATOR,
       profilePicture: PROFILE_PICTURES[0],
     },
@@ -32,7 +33,8 @@ async function main() {
     data: {
       name: "demodonor",
       email: "donor@example.com",
-      passwordHash: "donor",
+      passwordHash:
+        "$2b$10$4nVd6IX/9iu1S0dHdJ9S1OHfTUK8lzhdM1HLh2SnSuye4iBjhlhiS",
       role: Role.DONOR,
       profilePicture: PROFILE_PICTURES[0],
     },

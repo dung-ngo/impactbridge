@@ -25,10 +25,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           label: "Password",
           type: "password",
         },
-        profilePicture: {
-          label: "Profile Picture",
-          type: "profilePicture",
-        },
       },
 
       async authorize(credentials) {
@@ -81,8 +77,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
+        token.id = user.id as string;
         token.role = user.role;
+        token.profilePicture = user.profilePicture;
       }
 
       return token;
@@ -92,7 +89,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as Role;
-        session.user.profilePicture = token.profilePicture as string;
+        session.user.profilePicture = token.profilePicture;
       }
 
       return session;
