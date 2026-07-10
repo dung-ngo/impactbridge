@@ -293,11 +293,3 @@ Possible next steps:
 * Improve accessibility
 * Add tests for validation and server actions
 * Add real payment or bank-transfer workflow only after product requirements are clearer
-
----
-
-## Notes
-
-This project is part of my transition from frontend development toward full-stack, impact-focused web development.
-
-My goal is to build practical software for real-world problems, especially around animal welfare, nonprofit operations, and community-driven impact projects.
