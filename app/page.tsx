@@ -50,16 +50,16 @@ export default async function HomePage() {
             </div>
           </div>
 
-          {/* <div className="rounded-3xl border bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-semibold">Platform MVP</h2>
+          <div className="rounded-3xl border bg-white p-6 shadow-sm">
+            <h2 className="text-xl font-semibold">Play around demo accounts</h2>
 
             <ul className="mt-4 space-y-3 text-sm text-gray-700">
-              <li>✅ Campaign creation and publishing</li>
-              <li>✅ Pledges and one-time donations</li>
-              <li>✅ Donor, creator, and admin dashboards</li>
-              <li>✅ Hall of Fame leaderboard</li>
+              <li>❌ PLEASE DON'T CHANGE THE PASSWORD</li>
+              <li>✅ Campaign Creator: creator@example.com</li>
+              <li>✅ Donor: donor@example.com</li>
+              <li>✅ Password: 123456</li>
             </ul>
-          </div> */}
+          </div>
         </div>
       </section>
 
