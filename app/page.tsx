@@ -26,7 +26,7 @@ export default async function HomePage() {
               contributions create impact.
             </p>
 
-            <div className="mt-8 flex gap-3">
+            <div className="mt-8">
               {/* <Link
                 href="/campaigns"
                 className="rounded-lg bg-black px-5 py-3 text-sm font-medium text-white hover:bg-gray-800"
@@ -40,7 +40,13 @@ export default async function HomePage() {
                 >
                 Start a Campaign
               </Link> */}
-              <AppButton pathName="/campaign" label="Start a Campaign" />
+              <AppButton
+                pathName="/campaigns/create"
+                label="Start a Campaign"
+              />
+              <p className="text-xs mt-5">
+                <span>*</span> Only campaign creator can create new campaign
+              </p>
             </div>
           </div>
 
